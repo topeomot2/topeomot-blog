@@ -10,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className='dark'>
       <body className="flex antialiased text-slate-500 dark:bg-slate-900 dark:text-slate-400">
         <div className="container mx-auto px-24">
           <div className="flex py-5  justify-between items-center">
