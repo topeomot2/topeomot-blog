@@ -1,0 +1,75 @@
+---
+title: "Basic Concepts for Beginner Software Engineers - How the Internet Works."
+date: "2021-05-17"
+description: "Basic Software Engineering concepts explained in a simple way"
+tags: [beginners, internet, programming, protocols, software]
+series: "Basic Concepts for Beginner Software Engineers Series"
+published: true
+---
+
+This is a series of basic concepts Software Developers should know. After many years of working as a Software Engineer, I have found out that knowing  this concepts can clear up a lot of difficulty in understanding more advanced concepts in programming.
+
+My approach is to explain each concept in basic terms and with easily understood examples. This is mainly for individuals who are new to software engineering, hence the oversimplification of more advanced concepts, or anyone who wants to understand more about certain concepts.
+
+### The Internet
+
+Before we can understand what the internet is, let us look at this scenario.
+
+Imagine yourself on a desktop computer, you would be able to use the software on your computer to do things like create word documents. Some years ago before the internet, if you were creating the documents for yourself, then you had no issues but if it was for other individuals to view on their own computers, you had the following options to get it to them.
+
+* Copy it on a storage device e.g Floppy Disk (just showing my age) or USB Flash Drive and give it to an individual to view on his/her computer. For multiple users, they would either have to take turns copying the document or they each get a storage device with the same document. This was true even if all the desktops were in the same room.
+
+* As time went along, computers in the same relative area could be connected together to form a **network** using cables or a wireless router. Instead of copying the document to a storage device, there could be a shared folder, where you could drop the document and other computers on the network could pick it up. Wow what a vast improvement. But it only worked for computers within the network. This network were limited by distance.
+
+* **_The epitome of all network is the Internet. The internet is a GLOBAL NETWORK  that connects all other networks. It is made up of over a billion computers, cables, WiFi towers, satellite and other infrastructure._** Everything works together to take simple idea of a network and make it global. On the global network, different software have been created that solves our document sharing problem for us. We can email the documents to users. We could use a file sharing service like We Transfer. These solutions remove the limitation of geography.
+
+The concept of the internet brings up different questions.
+
+### How do all the machines on the internet work together?
+
+All the infrastructure and computers that make the internet work are made by different manufacturers. Windows Desktops alone are made by HP, Dell then routers by another set of makers. These are just part of the billion devices that work together to make the internet function. How did all this manufacturers make all their devices work together?
+
+This brings us to the concept of protocols.
+
+**_Protocols are agreements made by a set of bodies (made up of  Individuals and Companies) around certain aspect of communication on the internet._**
+
+These bodies include the Internet Engineering Task Force and the World Wide Consortium (W3C).
+
+There are protocols controlling every aspect of the internet. They  allow the seamless communication across different devices (computers, mobile phones, cars,  ...) by  different makers (HP, Apple, Tesla, ...).
+
+When a Device Manufacturer wants to make a device to be used on the internet, the device must follow all the Protocols agreed upon. Usually the Device Manufacturers are part of the group that. come up with this agreements.
+
+Popular example of Protocols are
+
+* Transmission Control Protocol (TCP)
+* File Transfer Protocol (FTP)
+* Internet Protocol (IP)
+* Simple Mail Transfer Protocol (SMTP)
+
+Without Device Manufacturers sticking to the Protocols, there would be no internet today.
+
+
+### How do devices know how to find each other?
+
+Devices on the internet are like post office mail boxes, each has an address. The protocol that controls the addresses of devices on the internet is the Internet Protocol (IP) and every device has an Internet Protocol (IP) addresses.
+
+The most widely used version of the Internet Protocol is the version 4 (IPv4). Each device connected to the internet, gets a unique, numerical address like 154.120.70.149 . 
+
+Whenever you send from one device to another on the internet, the message is sent along until it gets to a device with the IP address. Everything  on the internet is at  a location usually a Server which has an IP address including  websites we go to.
+
+Whenever you send from one device to another on the internet, the message is sent along until it gets to a device with the IP address. Everything  on the internet is at  a location usually a Server which has an IP address including  websites we go to.
+
+### What are domain names?
+
+Domain names were introduced as easier to remember and use addresses for devices on the internet. Instead of 154.120.70.149, you use https://example.com. 
+
+How does the internet know the IP address to go to when you type in your domain name?
+
+This is where Domain Name Servers (DNS) come. They map domain names to IP address. A typical flow involves
+
+* enter https://example.com in the browser address bar
+* if your browser cache has no entry for the domain, it requests it from the Domain Name Server
+* An IP address is returned to the browser for caching and the browser request is made.
+
+
+This basic simplified view of the internet will give you a simple spicture of how things work and is something I wish I had when I started my software development journey.

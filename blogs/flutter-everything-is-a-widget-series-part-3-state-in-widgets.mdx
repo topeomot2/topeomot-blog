@@ -1,0 +1,133 @@
+---
+title: "Flutter: Everything is a Widget Series - Part 3: State in Widgets."
+date: "2019-08-21"
+description: "An introductory series to Flutter and some basic widgets"
+tags: [flutter, android, beginner, mobile, ios]
+series: "Flutter: Everything is a Widget Series"
+published: true
+---
+
+*One of the main themes that quickly jump at you while using Flutter is that everything is a widget. This series aims to help beginners understand this simple yet powerful concept and introduce them to basic widgets in Flutter.To help us in this journey, I built a Twitter Mobile Clone App using only the inbuilt widgets that come with Flutter. You can find the code at https://github.com/topeomot2/twitter-ui-app*
+
+<br/><br/>
+
+Before going on to the different widgets we need to look at the concept of "State". This is not a term unique to Flutter but can also be found in other languages, the most well-known being React.
+
+State generally means a set of properties that determine what "situation/condition" the application is in. One of the best analogy I have seen is the comparison of temperature as a State property that determines the "condition" of water. Increase the temperature to 100⁰C and above, water becomes steam (gaseous state), below 0 ⁰C, water becomes ice (solid state).
+
+Generally, State exists at different levels of the application. State Management is a major topic and articles can be found online. This [link](https://app.egghead.io/articles/what-is-state-why-do-i-need-to-manage-it) includes a more technical look into state.
+
+
+
+For State at the widget level, Flutter gives us a State Class. Below is from the comments in the Flutter source code for the class.
+
+"State is information that (1) can be read synchronously when the widget is built and (2) might change during the lifetime of the widget."
+
+Based on whether a widget has a State Class attached to it or not, there are 2 basic widget types in Flutter, the Stateless Widget and the Stateful Widget.
+
+### Stateless Widget
+From the Flutter source code
+
+> StatelessWidgets class are for widgets that always build the same way given a particular configuration and ambient state.
+
+Stateless Widgets do not have a State class attached to them. Whatever configuration was passed during the widget creation cannot be changed internally by the widget itself. Below is an example of a Stateless Widget.
+
+```dart
+class StatelessSample extends StatelessWidget {
+
+  final int count;
+
+  const StatelessSample({Key key, this.count}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(count.toString(),
+        style: TextStyle(
+          color: Colors.white
+        ),
+      ),
+    );
+  }
+}
+```
+
+* Note, anything you want to come into the widget during creation must come in through the constructor and they must be declared final. Meaning if you pass in the same configuration, you will always get the same state in your widget.
+
+* The widget creates its own UI by returning a widget in its own build method.
+
+* Nothing in the widget can change the UIof the widget directly after it has been created. Only a total recreation by passing in another “count” externally can change the value of count being displayed.
+
+**For the reason above, Stateless Widget are ideal for sections of the User Interface used mainly for displaying information and obviously the information must be passed into the constructor.**
+
+### Stateful Widget
+From the Flutter source code
+
+> A StatefulWidget is a widget that has mutable state.
+
+Let us look at a simple example.
+
+```dart
+class StatefulSample extends StatefulWidget {
+
+  final int count;
+
+  const StatefulSample({Key key, this.count}) : super(key: key);
+
+  @override
+  _StatefulSampleState createState() => _StatefulSampleState();
+}
+
+class _StatefulSampleState extends State<StatefulSample> {
+
+  int count;
+
+  @override
+  void initState() {
+    super.initState();
+    count = widget.count;
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Text(count.toString(),
+              style: TextStyle(
+                  color: Colors.white
+              ),
+            ),
+          ),
+          RaisedButton(
+            child: Text('Increase Count'),
+            onPressed: (){
+              setState(() {
+                count += 1;
+              });
+            }
+          )
+        ],
+      ),
+    );
+  }
+}
+```
+
+Please note the following
+
+* There are 2 classes when it comes to Stateful Widget, a class that extends the inbuilt Flutter StatefulWidget itself and another class that extends the inbuilt State class. Every StatefulWidget must have a State class attached to it through the createState method.
+
+
+* The actual UI of the Stateful widget comes from the State object that is attached to it. You indicate the UI by returning a widget in the build function of the state.
+
+* The State class has a setState method, which the Flutter source code says “Notify the framework that the internal state of this object has changed”. This function notifies the framework which reruns the build function again with the updated properties of the state. 
+So even though the external “count” cannot be changed since it is final, we can update the UI because we are using an internal count variable of the State object and we are rebuilding the UI by calling setState();
+
+* iniState is a method that is called once during the initialisation of any State object. We set the initial value of our internal count variable from here.
+
+**The properties above make Stateful Widgets ideal for container widgets which control the display of other widgets.**
+
+
+
+>No matter which you use, the build method in a Stateless or Stateful Widget is where you will return what you want displayed. As we learnt in the last lesson this can be simple inbuilt widgets or complex compositions.

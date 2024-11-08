@@ -1,0 +1,136 @@
+---
+title: "Environment Variables In Serverless Framework."
+date: "2023-01-22"
+description: "Using external variables safely in a serverless application."
+tags: [serverless-framework, serverless, javascript, amazon-web-services]
+series: "Serverless"
+published: true
+---
+
+It is established standards not to put secrets in codebases because of security. Usually the secrets are introduced to
+during deployment or code execution.
+
+For Serverless Framework, it is no different. To introduce environment variable at deployment through the serverless.yml file,
+use the environment key under provider key.
+
+```yaml
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    PERSON: tope
+    STORE_KEY_ID: 34444
+```
+
+In code, you should be able to get the PERSON and STORE_KEY_ID environment variable as
+
+
+```js
+const { PERSON, STORE_KEY_ID } = process.env;
+```
+
+But there is still a security issue here, the serverless.yml is stll in your repository and anyone can have access to the value
+just by checking the serverless.yml file.
+
+
+I would like to look at 2 ways, this problem can be solved.
+
+1.  Introducing the environment variables into the environment where the deployment process for the serverless application happens
+    and letting the serverless.yml reference those values.
+
+```yaml
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    PERSON: ${env.PERSON}
+    STORE_KEY_ID: ${env.STORE_KEY_ID}
+```
+
+The question of having the environment variables in the environment depends on the environment. Usually most CI platforms like Github Actions
+have ways for you to sepcify the secrets you want interjected into your CI environment. For Github Actions, these are called Action Secrets and
+you can find more in the video link https://www.youtube.com/watch?v=3bz0IR-GDIw .
+
+What i want to focus on now is how to introduce these variables into the environment locally. It turns out Serverless framework can read
+from a .env file without any 3rd party plugin. All you just need to do is
+
+- Add a .env to you folder, same level as your serverless.yml file with content
+
+```js
+PERSON=tope
+STORE_KEY_ID=1234
+```
+
+- Add key useDotenv to the your serverless.yml file. This causes serverless to load environmental variables automatically from .env.
+
+```yaml
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    PERSON: ${env.PERSON}
+    STORE_KEY_ID: ${env.STORE_KEY_ID}
+```
+
+NOTE: this not make it automatically appear in your code, you still need to pass each of the environment to one in the environment key under provider.
+Don't forget to add your .env to your .gitignore file to prevent the file from being pushed to your central repository.
+
+2. By passing in variables as serverless parameters from the Serverless Dashboard. Serverless Dashboard helps you store secrets that can be used accross different
+   team members. Generally use the .env file for local development and testing and use the secrets in Serverless dashbord for deployment in your CI.
+
+This is not an arcticle on Serverless Dashboard but let me show you where it seats in the serverless deployment process.
+The first time I used serverless framework , it was basically like this
+
+```js
+[serverless framework on machine] ====== deploy ====>  [AWS]
+```
+
+All AWS secrets and other secrets are introduced during deployment from the machine. This machine genrally was your local device.
+
+Now it is like this
+
+```js
+[serverless framework on machine]  =====> [Serverless Cloud] ====== deploy ====>  [AWS]
+```
+
+All AWS secrets and other secrets are introduced during deployment from the Serverless Cloud. This adds security and removes the risk of
+anyone jsut being able to deploy since there are security access check between any machine and the Serverless Cloud.
+
+The Serverless Dashboard is the dashboard for the Serverless Cloud. One of the things is does is the ability to store secrets as parameters.
+To access to parameters in your serverless.yml is shown below
+
+```yaml
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    PERSON: ${param.PERSON}
+    STORE_KEY_ID: ${param.STORE_KEY_ID}
+```
+
+So how do you write your serverless.yml so it can work with both .env locally and parameters when going through the Serverless Cloud?
+Serverless framework gives us an easy way to do that
+
+```yaml
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    PERSON: ${param.PERSON, env.PERSON}
+    STORE_KEY_ID: ${param.STORE_KEY_ID, env.STORE_KEY_ID}
+```
+
+It checks for param.PERSON and falls back to env.PERSON. This helps make our serverless.yml very flexible.
+For some properties, this can be extended
+
+```yaml
+PERSON: ${param.ENV, env.ENV, 'dev'}
+```
+
+NOTE, do not use this for sensitive information, check only the param and the .env file.
+
+Please reach out with any questions or clarifications you need.

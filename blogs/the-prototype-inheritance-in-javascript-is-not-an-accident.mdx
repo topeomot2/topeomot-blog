@@ -1,0 +1,59 @@
+---
+title: "The Prototype Inheritance in JavaScript is not an Accident."
+date: "2021-05-04"
+description: "thoughts on the Javascript prototype"
+tags: [javascript, object, beginner, prototype]
+published: true
+---
+
+* I wonder why i had this gut feeling when working with JavaScript that  the Prototype Inheritance was an accident. After thinking about it, I realize, it was because of the following reasons*
+
+* I had written other languages before coming to JavaScript and those languages were main Object Oriented Languages or Functional like PHP, C++,  Java etc
+* Most of the materials  I read to learn JavaScript never got to Prototypes until the end and after classes, which ensured that I had written a little JavaScript the way I wrote in other languages before finding out it had its own inheritance mechanism
+
+In the ECMAScript specification which JavaScript is based off, after  introducing  the primitive types, you are introduced immediately to Prototypes in the next section which talks about Objects. It was critical for the developers that came up with the ECMAScript specification.
+
+## What is a Prototype
+
+To understand what a prototype is, we must know some basic things about JavaScript
+
+* Apart from the primitive types, almost everything is an Object. A function is simply a callable object. Even the primitive types have Object versions. The Number Object is the object version of the number primitive type.
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jdz7dawbmwxo1w2cjvl0.png)
+
+The  second which is the more interesting one (in my opinion) is the use of constructors. (Please remove your OOP brains for now, this has nothing to do with class constructors). These constructors are functions which when called with the new keyword creates a new Object. The code inside the constructor is then executed to initialize some or all of the object properties by initializing them.
+
+Below is an example of a constructor. In JavaScript, there are a lot of inbuilt constructors that we use, a major example is the Date function.
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ebe31vqu09yt08humlb7.png)
+
+* Every constructor has a property called a **prototype**. This prototype is an Object which means you can set properties on it.
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zne7mdj79zut5pz64mn6.png)
+
+
+* Objects created from the same constructor also have a property called "**prototype**" which reference (simply point to) the prototype of the constructor. They all point to the same prototype meaning they all see and share the same **constructor prototype**. 
+Continuing from our example above, it means they should all see the same value for height since height is on the constructor prototype.
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jxly4ddk4t397sh2jkez.png)
+
+As you can see from the result above, object1 and object2 have different names but they have the same height.
+The question then becomes there is no height  in the constructor but on its prototype, how did the JavaScript engine get the height correct. This brings us to Prototype-based Inheritance.
+
+* Prototype chain means when you call for a property in an Object, if the property is not in the Object itself, JavaScript will look at the prototype of the Object which in our example points to the constructor's prototype and since there is a property height, that is the value for height for the original Object. 
+
+* Note that since the prototype of objects are Objects themself, there is nothing that stops you from pointing them to another object. Personally I believe in allowing  the JavaScript engine manage the prototype referencing because I believe it was not meant to be used that way. Take for example the image below
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3qixyj3m1055ywgz9im8.png)
+
+Calling the prototype property on the object2 gives undefined not because it does not exist but you are not suppose to access it directly (my opinion). But note that calling prototype on the constructor gives the prototype Object. This is deliberate and not an accident. 
+
+* Constructors are like the base for other Objects. Shared properties between Objects should be on the constructor prototype. The prototype of objects are internal mechanisms for inheritance in JavaScript and should avoid setting it directly.*
+
+For Object prototype, a special accessor property called **__proto__** was introduced by browsers but is not included in the ECMAScript language spec. So please avoid using it in your code.
+
+* Finally if you follow the prototype chain down until you get to the constructor prototype, this usually ends in the built-in type Object. This is where all the Object functions we use are like hasOwnProperty, toString, valueOf.
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/i5j7kyz3y8x6mndn0omb.png)
+
+As much as it seems odd, the prototype inheritance in JavaScript is not an accident. It is how it is built and understanding it will help you write better JavaScript code.

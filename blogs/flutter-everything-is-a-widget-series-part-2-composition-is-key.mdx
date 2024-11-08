@@ -1,0 +1,126 @@
+---
+title: "Flutter: Everything is a Widget Series - Part 2: Composition is Key."
+date: "2019-08-11"
+description: "An introductory series to Flutter and some basic widgets"
+tags: [flutter, android, beginner, mobile, ios]
+series: "Flutter: Everything is a Widget Series"
+published: true
+---
+
+*One of the main themes that quickly jump at you while using Flutter is that everything is a widget. This series aims to help beginners understand this simple yet powerful concept and introduce them to basic widgets in Flutter. To help us in this journey, I built a Twitter Mobile Clone App using only the inbuilt widgets that come with Flutter. You can find the code at https://github.com/topeomot2/twitter-ui-app*
+
+
+
+<br/><br/>
+
+Every Flutter app starts from a call to main(), which calls the runApp command. The runApp commands simply set up the root widget of the Application. From here onwards we are building a tree of widgets with the root widget as the origin.
+
+>*In Flutter, Widgets are the building blocks for other Widgets and the UI.*
+
+The technique used for this is Composition. You use widgets to compose other widgets and your UI (which can be seen as one giant widget) is composed of widgets too. We will use 2 examples to illustrate this.
+
+### Twitter Mobile Clone App Widget Tree
+
+To illustrate this, below is a section of the widget tree for the Twitter Mobile Clone App.
+
+![](https://cdn-images-1.medium.com/max/1600/1*QRC0NRVmMrDZxWORfEh8pw.jpeg)
+
+Note the following
+
+- MyApp Widget is the root widget. This will be loaded by a call to the runApp() in the main function.
+
+```dart
+void main() => runApp(MyApp());
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Twitter UI',
+      theme: new ThemeData(
+          primaryColor: DarkModeBg,
+      ),
+      home: TwitterHomePage(),
+    );
+  }
+}
+```
+
+- Widgets are not only for content but they are also for structure. Examples of such widgets are Column, Row, Padding, SizedBox, etc. Everything in Flutter development is a widget, even if they do not contain any content like text, images, etc. Everything extends to things like color, alignment, etc
+
+- Widgets of a particular type can be reused as many times as is required.
+
+As I said, we will be going through all these widgets in this series.
+
+### RaisedButton Widget
+
+The RaisedButton is one of the Button widgets inbuilt that comes with Flutter in the MaterialApp library. Below is the constructor code for a RaisedButton.
+
+```dart
+const RaisedButton({
+  Key key,
+  @required VoidCallback onPressed,
+  ValueChanged<bool> onHighlightChanged,
+  ButtonTextTheme textTheme,
+  Color textColor,
+  Color disabledTextColor,
+  Color color,
+  Color disabledColor,
+  Color highlightColor,
+  Color splashColor,
+  Brightness colorBrightness,
+  double elevation,
+  double highlightElevation,
+  double disabledElevation,
+  EdgeInsetsGeometry padding,
+  ShapeBorder shape,
+  Clip clipBehavior = Clip.none,
+  MaterialTapTargetSize materialTapTargetSize,
+  Duration animationDuration,
+  Widget child,
+}) : assert(elevation == null || elevation >= 0.0),
+     assert(highlightElevation == null || highlightElevation >= 0.0),
+     assert(disabledElevation == null || disabledElevation >= 0.0),
+     super(
+       key: key,
+       onPressed: onPressed,
+       onHighlightChanged: onHighlightChanged,
+       textTheme: textTheme,
+       textColor: textColor,
+       disabledTextColor: disabledTextColor,
+       color: color,
+       disabledColor: disabledColor,
+       highlightColor: highlightColor,
+       splashColor: splashColor,
+       colorBrightness: colorBrightness,
+       elevation: elevation,
+       highlightElevation: highlightElevation,
+       disabledElevation: disabledElevation,
+       padding: padding,
+       shape: shape,
+       clipBehavior: clipBehavior,
+       materialTapTargetSize: materialTapTargetSize,
+       animationDuration: animationDuration,
+       child: child,
+     );
+
+```
+
+- Note the method parameter, ButtonTextTheme. This expects a Widget which expects a ButtonTheme Widget which itself extends an inheritedWidget.
+
+- The child parameter is of type Widget. It means we can pass a widget to this widget. Usually, a widget has either a parameter called either "child" or "children" depending on the widget itself. Column and Row widgets have a "children" parameter while a container has a "child" widget.
+
+- This principle of properties of Widgets containing other Widget is used throughout Flutter.
+
+### For Android Developers
+
+As an Android Developers who use Java or Kotlin, this composition method in Flutter which leads to a lot of layers in your UI hierarchy which is something that is frowned upon when developing in those languages. In developing with Java and Kotlin with the Android ADK we aim for shallow hierarchy because the greater the number of layers in your UI hierarchy the slower thee app becomes.
+Flutter does not suffer from this type of limitation. How does Flutter manage this?
+
+Flutter has a layout algorithm that builds the UI from the Widget Tree at sublinear performance. The worst-case scenario will be Linear O(N) during the initial layout and sublinear (< O(N)) for subsequent UI update where N is the number of widgets.
+
+The combination of the sublinear layout algorithm other factors means you should not be scared of composing widgets.
+
+### Composition is Key
+
+As you aim to become a better Flutter developer, keep in mind, widgets are the building block, composition is the technique for creating a building from the blocks.
