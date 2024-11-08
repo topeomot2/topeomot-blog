@@ -6,7 +6,7 @@ import { format } from "date-fns/format";
 
 
 export default async function Page({ params }: { params: { postId: string } }) {
-    const { meta, content, postId } = await getPostDetails(params.postId);
+    const { meta, content } = await getPostDetails(params.postId);
     return <>
         <div className="mb-5">
             <div className="text-xl font-bold text-slate-700 dark:text-slate-200">{meta.title}</div>
