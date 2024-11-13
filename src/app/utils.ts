@@ -7,8 +7,8 @@ import rehypePrism from "rehype-prism-plus";
 
 export interface Post {
     postId: string,
-    content: React.JSX.Element,
-    meta: {
+    content?: React.JSX.Element,
+    meta?: {
         title: string,
         description: string
         tags: string[],
@@ -21,24 +21,29 @@ export interface Post {
 
 export async function getPostDetails(postId: string): Promise<Post> {
 
-    const directoryPath = path.join(process.cwd(), 'blogs');
-    const fileContent = await fs.readFile(`${directoryPath}/${postId}.mdx`, { encoding: 'utf-8' });
-    const { frontmatter, content } = await compileMDX({
-        source: fileContent,
-        options: {
-            parseFrontmatter: true,
-            mdxOptions: {
-                remarkPlugins: [
-                    [remarkGfm]
-                ],
-                rehypePlugins: [
-                    [rehypePrism, { ignoreMissing: true }]
-                ]
-            }
-        },
-    });
+    try {
+        const directoryPath = path.join(process.cwd(), 'blogs');
+        const fileContent = await fs.readFile(`${directoryPath}/${postId}.mdx`, { encoding: 'utf-8' });
+        const { frontmatter, content } = await compileMDX({
+            source: fileContent,
+            options: {
+                parseFrontmatter: true,
+                mdxOptions: {
+                    remarkPlugins: [
+                        [remarkGfm]
+                    ],
+                    rehypePlugins: [
+                        [rehypePrism, { ignoreMissing: true }]
+                    ]
+                }
+            },
+        });
 
-    return { meta: frontmatter as Post["meta"], content, postId }
+        return { meta: frontmatter as Post["meta"], content, postId }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return { postId }
+    }
 
 }
 
@@ -58,8 +63,8 @@ export async function getFilesByExtension(directoryPath: string, extension: stri
     });
 
     const posts = await Promise.all(promises);
-    posts.sort((post1, post2) =>
-        Date.parse(post2.meta.date!) - Date.parse(post1.meta.date!)
+    posts.filter(post => post.content && post.meta).sort((post1, post2) =>
+        Date.parse(post2.meta!.date!) - Date.parse(post1.meta!.date!)
     )
     return posts;
 }
