@@ -2,21 +2,22 @@ import { getPostDetails } from "@/app/utils";
 import { format } from "date-fns/format";
 import { notFound } from "next/navigation";
 
-
-
-
-
 export default async function Page({ params }: { params: { postId: string } }) {
-    const { meta, content } = await getPostDetails(params.postId);
-    if (!meta) {
-        notFound();
-    }
-    return <>
-        <div className="mb-5">
-            <div className="text-xl font-bold text-slate-700 dark:text-slate-200">{meta.title}</div>
-            <div className="text-sm">{meta.date && format(new Date(Date.parse(meta.date)), "PPP")}</div>
+  const { meta, content } = await getPostDetails(params.postId);
+  if (!meta) {
+    notFound();
+  }
+  return (
+    <>
+      <div className="mb-5">
+        <div className="text-xl font-bold text-slate-700 dark:text-slate-200">
+          {meta.title}
         </div>
-        {content}
-
+        <div className="text-sm">
+          {meta.date && format(new Date(Date.parse(meta.date)), "PPP")}
+        </div>
+      </div>
+      {content}
     </>
+  );
 }

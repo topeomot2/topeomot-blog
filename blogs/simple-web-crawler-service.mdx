@@ -7,12 +7,12 @@ series: "Projects"
 published: true
 ---
 
-*This was built based on the Backend Project Idea 1 given in the article [https://hackernoon.com/15-project-ideas-for-front-end-back-end-and-full-stack-web-developers-j06k35pi](https://hackernoon.com/15-project-ideas-for-front-end-back-end-and-full-stack-web-developers-j06k35pi)*
+_This was built based on the Backend Project Idea 1 given in the article [https://hackernoon.com/15-project-ideas-for-front-end-back-end-and-full-stack-web-developers-j06k35pi](https://hackernoon.com/15-project-ideas-for-front-end-back-end-and-full-stack-web-developers-j06k35pi)_
 
 Find project repository at https://github.com/topeomot2/simple-web-crawler-service
 
-
 ## Requirements
+
 - Simple web crawler service that takes a page URL and returns the HTML markup of that page.
 - Only handles absolute urls.
 
@@ -45,97 +45,93 @@ text: 'send absolute url with protocol included'
 
 ## Libraries used
 
-
 ## [Express](https://expressjs.com/)
- 
- Personally, my go to web framework for Node.js apis. 
- 
- Express actually lives up to the definition on its site. It is Fast, unopinionated, minimalist Framework for Node.js. The unopinionated and minimalist can be a blessing  or a curse, depending on what your preferences are.
- It means you need to make decisions on what tools you want to use. Express makes no assumptions for you.  
+
+Personally, my go to web framework for Node.js apis.
+
+Express actually lives up to the definition on its site. It is Fast, unopinionated, minimalist Framework for Node.js. The unopinionated and minimalist can be a blessing or a curse, depending on what your preferences are.
+It means you need to make decisions on what tools you want to use. Express makes no assumptions for you.  
  But no worries, with the [express-generator](https://expressjs.com/en/starter/generator.html), spinning up a basic api is simple.
 
- The code below creates a project with express and some folder and setup opinions. The --no-view means we are  not using any view template engines.
+The code below creates a project with express and some folder and setup opinions. The --no-view means we are not using any view template engines.
 
- ```Javascript
-    npx express-generator
-    express --no-view simple-web-crawler-service
- ```
- 
+```Javascript
+   npx express-generator
+   express --no-view simple-web-crawler-service
+```
+
 Find out more at https://expressjs.com/en/starter/generator.html
 
 ## [Validator](https://www.npmjs.com/package/validator)
 
-A library of string validators and sanitizers. Chose this because of the simple isURL function it has which helps us check if the url query  parameter is an absolute url with the protocol set.
+A library of string validators and sanitizers. Chose this because of the simple isURL function it has which helps us check if the url query parameter is an absolute url with the protocol set.
 
-*Never use external inputs to your api without validation and sanitization*
+_Never use external inputs to your api without validation and sanitization_
 
- ```Javascript
-    if (!req.query || !req.query.url 
-        || !validator.isURL(req.query.url, 
-            { require_host: true, require_protocol: true })) {
-        return res.status(400).send('send absolute url with protocol included')
-    }
- ```
+```Javascript
+   if (!req.query || !req.query.url
+       || !validator.isURL(req.query.url,
+           { require_host: true, require_protocol: true })) {
+       return res.status(400).send('send absolute url with protocol included')
+   }
+```
 
 ## [Axios](https://axios-http.com/)
 
- A very simple promise based HTTP Client. If you know how to use Promises, using  Axios will be a breeze. This does all the work of retrieving  the content of a page by making a GET request to the url.
+A very simple promise based HTTP Client. If you know how to use Promises, using Axios will be a breeze. This does all the work of retrieving the content of a page by making a GET request to the url.
 
-   ```Javascript
-   const axios = require('axios')
+```Javascript
+const axios = require('axios')
 
-    async function getContent(url) { 
-        try {
-            let response  = await axios(url)
-            return response.data
-        } catch (error) {
-            return null
-        }
-        
-        
-    }
- ```
+ async function getContent(url) {
+     try {
+         let response  = await axios(url)
+         return response.data
+     } catch (error) {
+         return null
+     }
 
+
+ }
+```
 
 ## [Jest](https://jestjs.io/)
 
-  Jest is a JavaScript Testing Framework. It works for any form of JavaScript code or anything that compiles to JavaScript i.e TypeScript. It is simple and I would recommend it anytime. It is the only testing framework I use in JavaScript.
-  
-  - install as a devDependency
+Jest is a JavaScript Testing Framework. It works for any form of JavaScript code or anything that compiles to JavaScript i.e TypeScript. It is simple and I would recommend it anytime. It is the only testing framework I use in JavaScript.
+
+- install as a devDependency
 
 ```Javascript
     npm install jest --save-dev
- ```
+```
 
- - add the  following line in the scripts section of package.json.
+- add the following line in the scripts section of package.json.
 
- 
 ```Javascript
     "test": "jest --coverage --watchAll"
- ```
+```
 
- --coverage : you want jest to create a coverage report
---watchAll means you want continuous checking of code change and rerunning  tests. (This is good for TDD, but can be removed if not desired)
+--coverage : you want jest to create a coverage report
+--watchAll means you want continuous checking of code change and rerunning tests. (This is good for TDD, but can be removed if not desired)
 
 The test can be found in the tests/app.test.js file.
 
 ## [Supertest](https://www.npmjs.com/package/supertest)
 
- The most important tests you can write for apis (and software in general) are integration tests. For apis, "route tests" are the integration tests. Supertest
+The most important tests you can write for apis (and software in general) are integration tests. For apis, "route tests" are the integration tests. Supertest
 
- Route tests are tests that actually call endpoints in the apis and tests for the happy path and sad paths. Supertest is the package for write route test. Supertest is built on [superagent](https://github.com/visionmedia/superagent), which is  an HTTP request library. So your Express app is actually called like if a user was making a request
+Route tests are tests that actually call endpoints in the apis and tests for the happy path and sad paths. Supertest is the package for write route test. Supertest is built on [superagent](https://github.com/visionmedia/superagent), which is an HTTP request library. So your Express app is actually called like if a user was making a request
 
- Happy path is when you call the api correctly with all the expected parameters, you should the correct  successful response. Below is a test that checks the response for the happy path. 
+Happy path is when you call the api correctly with all the expected parameters, you should the correct successful response. Below is a test that checks the response for the happy path.
 
- The sad path is when you call the api incorrectly and you expect api to respond with the agreed response. 
+The sad path is when you call the api incorrectly and you expect api to respond with the agreed response.
 
 But something very important to note, calling apis this way means that all dependencies will be called. Dependencies include things like Databases, 3rd party apis etc. There are 2 ways practically to handle dependencies
 
-- Mocking: This is the process of substituting the response from 3rd dependencies so that they are not  actually  called during the test. This is the approach used here. Instead of using the crawler.js module to call the url, I used Jest to Mock the module and return a response. This makes the test faster and more predictable.
+- Mocking: This is the process of substituting the response from 3rd dependencies so that they are not actually called during the test. This is the approach used here. Instead of using the crawler.js module to call the url, I used Jest to Mock the module and return a response. This makes the test faster and more predictable.
 
-- Containerization: this is good for database dependent apis, instead of mocking the database, you can just spin up a container for that database, seed it (fill it with test data) and then run your test against  it. This can also be used for other infrastructural dependencies that the pai depends on.
+- Containerization: this is good for database dependent apis, instead of mocking the database, you can just spin up a container for that database, seed it (fill it with test data) and then run your test against it. This can also be used for other infrastructural dependencies that the pai depends on.
 
-*Note: You can also use Mocking for the situation described in the Containerization section. I would advise that database are encapsulated in a service/model and then you can then mock the service/model*
-
+_Note: You can also use Mocking for the situation described in the Containerization section. I would advise that database are encapsulated in a service/model and then you can then mock the service/model_
 
 This is the first of many project ideas, I want to get done. Most of them will be picked from project ideas, I find online. Please reach out with any advise, improvements or corrections you feel that is needed.

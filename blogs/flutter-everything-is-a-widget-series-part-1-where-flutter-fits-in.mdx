@@ -11,8 +11,8 @@ One of the main themes that quickly jump at you while using Flutter is that ever
 
 To help us get more insight into Flutter, I decided to build a Twitter Mobile App UI but with the following constraint.
 
-* Use only widgets that come out of the box in Flutter.
-* Do not use external libraries.
+- Use only widgets that come out of the box in Flutter.
+- Do not use external libraries.
 
 For any point at which I deviate, you will be notified and given a reason. Below is the result and you can find the project at https://github.com/topeomot2/twitter-ui-app
 
@@ -20,24 +20,24 @@ For any point at which I deviate, you will be notified and given a reason. Below
 
 Below is a compiled list of the widgets used. We shall look at some basic concepts and look at each of the widgets used in this series.
 
-* Container
-* Column
-* Row
-* Text
-* SizedBox
-* Expanded
-* Icon
-* Divider
-* Padding
-* TextStyle
-* Card
-* Scaffold
-* AppBar
-* ListView
-* ListTile
-* CircleAvatar
-* Drawer
-* MaterialApp
+- Container
+- Column
+- Row
+- Text
+- SizedBox
+- Expanded
+- Icon
+- Divider
+- Padding
+- TextStyle
+- Card
+- Scaffold
+- AppBar
+- ListView
+- ListTile
+- CircleAvatar
+- Drawer
+- MaterialApp
 
 An important feature of Flutter is its simplicity. Flutter is very simple, but also very powerful. And my aim in this series is to follow that same pattern and show its variety of use cases.
 
@@ -45,31 +45,30 @@ An important feature of Flutter is its simplicity. Flutter is very simple, but a
 
 To understand where widgets come in, we need to understand how development in Flutter works. To help, we’re going to look at the 2 major ways that applications have been developed for mobile platforms.
 
-* __Native Development__
+- **Native Development**
 
 In Native development, you write code which automatically makes use of the device OEM widgets for display and talks directly to the device services for capabilities like Bluetooth, camera, etc.
 Did you notice? I said OEM widgets. Meaning you will have to develop for each platform separately. They are done in languages that are chosen by the OEMs. For Android, that is primarily Java and Kotlin, Objective C and Swift for IOS.
 
-__Pros__: There is more access to device capabilities.
-__Cons__: You have to develop separately for different platforms.
+**Pros**: There is more access to device capabilities.
+**Cons**: You have to develop separately for different platforms.
 
-* __Cross Platform Development__
+- **Cross Platform Development**
 
 For Cross Platform development, these are majorly HTML, JavaScript, and CSS in WebView. These WebViews cannot talk to the OEM widgets for UI and definitely not the device services.
-The above translates to the use of a JavaScript Bridge, which acts as a layer between user code and the device capabilities. Because they talk through a bridge, you can write once and let the JavaScript Bridge do the work of talking to the native layer of whatever platform is there. 
+The above translates to the use of a JavaScript Bridge, which acts as a layer between user code and the device capabilities. Because they talk through a bridge, you can write once and let the JavaScript Bridge do the work of talking to the native layer of whatever platform is there.
 
-__Pros__: You get faster development since you only need to build once and it works on both Android and IOS.
-__Cons__: This cannot utilize native device capabilities.
-
+**Pros**: You get faster development since you only need to build once and it works on both Android and IOS.
+**Cons**: This cannot utilize native device capabilities.
 
 ### But what does Flutter do?
 
 It introduces another paradigm by taking the best of both worlds.
 
-* Flutter uses the Dart programming language which is then compiled into native ARM Code, which means your apps built with Flutter have full access to device services and capabilities.
+- Flutter uses the Dart programming language which is then compiled into native ARM Code, which means your apps built with Flutter have full access to device services and capabilities.
 
-* To deal with the different OEM widgets, Flutter totally avoids OEM widgets and builds its own widgets using its own renderer. This means widgets that look and feel like the native OEM widgets and adapts to their respective platform.
+- To deal with the different OEM widgets, Flutter totally avoids OEM widgets and builds its own widgets using its own renderer. This means widgets that look and feel like the native OEM widgets and adapts to their respective platform.
 
-* But these widgets are so customizable that you can build a totally different experience from what the OEM normal look and feel like. It is all up to you.
+- But these widgets are so customizable that you can build a totally different experience from what the OEM normal look and feel like. It is all up to you.
 
 So Flutter gives you Native Capabilities while doing Cross Platform Development. The main backbone of building Flutter apps is the Widget and we shall be looking at them in greater detail in the coming articles in this series.
